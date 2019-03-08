@@ -7,17 +7,17 @@
   "author": "Eduardo Leal <leal@veek.com.br>",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf ./coverage ./lib",
-    "build": "cross-env NODE_ENV=production rollup -c -o lib/index.js",
+    "clean": "cross-env NODE_ENV=production rimraf ./coverage ./lib",
+    "build": "rollup -c -o lib/index.js",
     "dev": "cross-env NODE_ENV=development rollup -c -o lib/index.js",
     "update": "yarn upgrade-interactive --latest",
     "lint": "xo src/**/**/*.js",
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:cover": "jest --coverage",
     "coveralls": "npm run test:cover && cat ./coverage/lcov.info | coveralls",
     "release": "standard-version",
-    "prepublish": "npm run clean && npm run test && npm run flow && npm run lint && npm run build"
+    "prepublish": "npm run clean && npm run test && npm run lint && npm run build"
   },
   "dependencies": {
     "@sentry/node": "4.6.4"
@@ -143,5 +143,17 @@
     "testMatch": [
       "**/*.spec.js"
     ]
+  },
+  "renovate": {
+    "extends": [
+      "config:base"
+    ],
+    "baseBranches": [
+      "dev"
+    ],
+    "automerge": true,
+    "automergeType": "branch-push",
+    "rebaseStalePrs": true,
+    "recreateClosed": true
   }
 }
