@@ -5,19 +5,19 @@
   "main": "build/index.js",
   "repository": "git@github.com:veeklabs/moleculer-sentry-middleware.git",
   "author": "Eduardo Leal <leal@veek.com.br>",
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
   "scripts": {
-    "build": "babel src --out-dir dist",
-    "dev": "nodemon -w ./src --exec 'babel-node --inspect=0.0.0.0:9222 -- ./node_modules/moleculer/bin/moleculer-runner.js  --hot --repl --config src/moleculer.config.js src/api-gateway-service.js'",
-    "prestart": "yarn build",
-    "start": "moleculer-runner dist/api-gateway-service.js",
+    "clean": "rimraf ./coverage ./lib",
+    "build": "cross-env NODE_ENV=production rollup -c -o lib/index.js",
+    "dev": "cross-env NODE_ENV=development rollup -c -o lib/index.js",
     "update": "yarn upgrade-interactive --latest",
     "lint": "xo src/**/**/*.js",
-    "test": "jest",
+    "test": "cross-env NODE_ENV=test jest",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "release": "standard-version"
+    "test:cover": "jest --coverage",
+    "coveralls": "npm run test:cover && cat ./coverage/lcov.info | coveralls",
+    "release": "standard-version",
+    "prepublish": "npm run clean && npm run test && npm run flow && npm run lint && npm run build"
   },
   "dependencies": {
     "@sentry/node": "4.6.4"
