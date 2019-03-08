@@ -7,17 +7,17 @@
   "author": "Eduardo Leal <leal@veek.com.br>",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf ./coverage ./lib",
-    "build": "cross-env NODE_ENV=production rollup -c -o lib/index.js",
+    "clean": "cross-env NODE_ENV=production rimraf ./coverage ./lib",
+    "build": "rollup -c -o lib/index.js",
     "dev": "cross-env NODE_ENV=development rollup -c -o lib/index.js",
     "update": "yarn upgrade-interactive --latest",
     "lint": "xo src/**/**/*.js",
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:cover": "jest --coverage",
     "coveralls": "npm run test:cover && cat ./coverage/lcov.info | coveralls",
     "release": "standard-version",
-    "prepublish": "npm run clean && npm run test && npm run flow && npm run lint && npm run build"
+    "prepublish": "npm run clean && npm run test && npm run lint && npm run build"
   },
   "dependencies": {
     "@sentry/node": "4.6.4"
@@ -33,6 +33,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
     "babel-plugin-add-module-exports": "^1.0.0",
+    "cross-env": "^5.2.0",
     "eslint": "^5.14.1",
     "eslint-config-prettier": "^4.0.0",
     "eslint-config-xo": "^0.26.0",
@@ -43,6 +44,13 @@
     "jest-cli": "^24.1.0",
     "lint-staged": "^8.1.4",
     "prettier": "^1.16.4",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.6.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-uglify": "^6.0.2",
     "standard-version": "^5.0.1",
     "supertest": "^3.4.2",
     "xo": "^0.24.0"
@@ -145,8 +153,12 @@
     ]
   },
   "renovate": {
-    "extends": ["config:base"],
-    "baseBranches": ["dev"],
+    "extends": [
+      "config:base"
+    ],
+    "baseBranches": [
+      "dev"
+    ],
     "automerge": true,
     "automergeType": "branch-push",
     "rebaseStalePrs": true,
