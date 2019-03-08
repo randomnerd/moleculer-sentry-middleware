@@ -1,6 +1,6 @@
 import Sentry from '@sentry/node';
 
-const MyCustomMiddleware = {
+export const MyCustomMiddleware = {
   // Wrap broker.createService method
   createService(next) {
     const name = 'name';
@@ -15,5 +15,3 @@ const MyCustomMiddleware = {
     };
   },
 };
-
-export default MyCustomMiddleware;
