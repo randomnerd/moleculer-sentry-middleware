@@ -1,17 +1,19 @@
 import Sentry from '@sentry/node';
 
-export const MyCustomMiddleware = {
-  // Wrap broker.createService method
-  createService(next) {
-    const name = 'name';
-    const version = 'name';
-    return (schema, schemaMods) => {
-      Sentry.init({
-        dsn: 'https://9837ca09c8e843a9a90507e6564520a7@sentry.io/1406109',
-        release: `${name}@${version}`,
-        debug: true,
-      });
-      return next(schema, schemaMods);
-    };
-  },
+export default options => {
+  const defaults = {
+    dsn: null,
+    release: null,
+    debug: false,
+  };
+  const finalOptions = {...defaults, options};
+
+  return {
+    createService(next) {
+      return (schema, schemaMods) => {
+        Sentry.init(finalOptions);
+        return next(schema, schemaMods);
+      };
+    },
+  };
 };
