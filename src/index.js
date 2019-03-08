@@ -6,7 +6,7 @@ export default options => {
     release: null,
     debug: false,
   };
-  const finalOptions = {...defaults, options};
+  const finalOptions = {...defaults, ...options};
 
   return {
     createService(next) {
