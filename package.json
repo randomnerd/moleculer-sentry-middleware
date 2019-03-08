@@ -2,9 +2,146 @@
   "name": "moleculer-sentry-middleware",
   "version": "0.0.0",
   "description": "Sentry Integration for MoleculerJs",
-  "main": "index.js",
+  "main": "build/index.js",
   "repository": "git@github.com:veeklabs/moleculer-sentry-middleware.git",
   "author": "Eduardo Leal <leal@veek.com.br>",
   "license": "UNLICENSED",
-  "private": true
+  "private": true,
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "dev": "nodemon -w ./src --exec 'babel-node --inspect=0.0.0.0:9222 -- ./node_modules/moleculer/bin/moleculer-runner.js  --hot --repl --config src/moleculer.config.js src/api-gateway-service.js'",
+    "prestart": "yarn build",
+    "start": "moleculer-runner dist/api-gateway-service.js",
+    "update": "yarn upgrade-interactive --latest",
+    "lint": "xo src/**/**/*.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "@sentry/node": "4.6.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-transform-async-to-generator": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-conventional": "^7.5.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.1.0",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "eslint": "^5.14.1",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-config-xo": "^0.26.0",
+    "eslint-config-xo-space": "^0.21.0",
+    "eslint-plugin-import": "^2.16.0",
+    "husky": "^1.3.1",
+    "jest": "^24.1.0",
+    "jest-cli": "^24.1.0",
+    "lint-staged": "^8.1.4",
+    "prettier": "^1.16.4",
+    "standard-version": "^5.0.1",
+    "supertest": "^3.4.2",
+    "xo": "^0.24.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          },
+          "debug": false
+        }
+      ]
+    ],
+    "plugins": [
+      "add-module-exports",
+      "@babel/plugin-transform-async-to-generator"
+    ],
+    "sourceMaps": "inline",
+    "retainLines": true
+  },
+  "xo": {
+    "parser": "babel-eslint",
+    "prettier": true,
+    "extensions": [
+      "js"
+    ],
+    "envs": [
+      "node",
+      "jest"
+    ],
+    "ignores": [
+      "babel.config.js",
+      "dist /",
+      ".vscode"
+    ],
+    "extends": [
+      "prettier"
+    ],
+    "plugins": [],
+    "globals": [
+      "expect",
+      "it",
+      "describe",
+      "jest",
+      "test"
+    ],
+    "rules": {},
+    "settings": {}
+  },
+  "eslintConfig": {
+    "extends": [
+      "xo",
+      "xo-space"
+    ]
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "insertPragma": false,
+    "proseWrap": "preserve",
+    "requirePragma": false,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "useTabs": false,
+    "printWidth": 80
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "yarn lint",
+      "git add --all"
+    ]
+  },
+  "jest": {
+    "coverageDirectory": "coverage",
+    "testEnvironment": "node",
+    "roots": [
+      "./src/test"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "testMatch": [
+      "**/*.spec.js"
+    ]
+  }
 }
