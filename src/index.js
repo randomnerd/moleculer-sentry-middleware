@@ -1,12 +1,15 @@
-import Sentry from '@sentry/node';
+import Sentry from './sentry';
 
-export default options => {
+const middleware = options => {
   const defaults = {
     dsn: null,
     release: null,
     debug: false,
   };
-  const finalOptions = {...defaults, ...options};
+  const finalOptions = {
+    ...defaults,
+    ...options,
+  };
 
   return {
     createService(next) {
@@ -17,3 +20,5 @@ export default options => {
     },
   };
 };
+
+export {Sentry, middleware};
