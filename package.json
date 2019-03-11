@@ -12,10 +12,9 @@
     "dev": "cross-env NODE_ENV=development rollup -c -o lib/index.js",
     "update": "yarn upgrade-interactive --latest",
     "lint": "xo src/**/**/*.js",
-    "test": "cross-env NODE_ENV=test jest --passWithNoTests",
-    "test:watch": "jest --watch",
-    "test:cover": "jest --coverage",
-    "coveralls": "npm run test:cover && cat ./coverage/lcov.info | coveralls",
+    "test": "cross-env NODE_ENV=test jest --notify --forceExit --detectOpenHandles --maxWorkers=10",
+    "test:watch": "cross-env NODE_ENV=test jest --watch --notify",
+    "test:cover": "cross-env NODE_ENV=test jest --coverage",
     "release": "standard-version",
     "prepublish": "npm run clean && npm run test && npm run lint && npm run build"
   },
@@ -33,6 +32,7 @@
     "babel-eslint": "10.0.1",
     "babel-jest": "24.3.1",
     "babel-plugin-add-module-exports": "1.0.0",
+    "cross-env": "^5.2.0",
     "eslint": "5.15.1",
     "eslint-config-prettier": "4.1.0",
     "eslint-config-xo": "0.26.0",
@@ -90,7 +90,8 @@
       "it",
       "describe",
       "jest",
-      "test"
+      "test",
+      "__SENTRY__"
     ],
     "rules": {},
     "settings": {}

@@ -1,6 +1,6 @@
-import Sentry from './sentry';
+import * as Sentry from '@sentry/node';
 
-const middleware = options => {
+const sentryMiddleware = (options = {}) => {
   const defaults = {
     dsn: null,
     release: null,
@@ -15,10 +15,10 @@ const middleware = options => {
     createService(next) {
       return (schema, schemaMods) => {
         Sentry.init(finalOptions);
-        return next(schema, schemaMods);
+        return next(schema, schemaMods, Sentry);
       };
     },
   };
 };
 
-export {Sentry, middleware};
+export {Sentry, sentryMiddleware};
