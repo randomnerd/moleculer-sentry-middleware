@@ -1,11 +1,15 @@
 {
-  "name": "moleculer-sentry-middleware",
+  "name": "@veek/moleculer-sentry-middleware",
   "version": "0.0.10",
   "description": "Sentry Integration for MoleculerJs",
   "main": "lib/index.js",
-  "repository": "git@github.com:veeklabs/moleculer-sentry-middleware.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/veeklabs/moleculer-sentry-middleware.git"
+  },
   "author": "Eduardo Leal <leal@veek.com.br>",
   "license": "MIT",
+  "private": false,
   "scripts": {
     "clean": "cross-env NODE_ENV=production rimraf ./coverage ./lib",
     "build": "rollup -c -o lib/index.js",
@@ -156,5 +160,12 @@
     "automergeType": "branch-push",
     "rebaseStalePrs": true,
     "recreateClosed": true
+  },
+  "bugs": {
+    "url": "https://github.com/veeklabs/moleculer-sentry-middleware/issues"
+  },
+  "homepage": "https://github.com/veeklabs/moleculer-sentry-middleware#readme",
+  "directories": {
+    "lib": "lib"
   }
 }
